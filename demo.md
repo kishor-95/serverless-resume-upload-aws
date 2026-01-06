@@ -46,9 +46,6 @@ graph LR
     F -->|Email| G[Admin]
 
 ```
-
----
-
 ## ⚡ Technology Stack
 
 ### **Frontend**
