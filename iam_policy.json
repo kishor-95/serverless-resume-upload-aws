@@ -14,7 +14,7 @@
     {
       "Effect": "Allow",
       "Action": "sns:Publish",
-      "Resource": "arn:aws:sns:us-east-1:778465394744:resume-upload-alerts"
+      "Resource": "arn:aws:sns:us-east-1:<account_no>:resume-upload-alerts"
     },
     {
       "Effect": "Allow",
