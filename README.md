@@ -1,15 +1,6 @@
 # Serverless Resume Upload Portal (AWS)
----
-## 📖 Table of Contents
-- [Problem Statement](#-problem-statement)
-- [Architecture](#-architecture)
-- [Technology Stack](#-technology-stack)
-- [Workflow](#-workflow)
-- [Configuration](#-configuration)
-- [Deployment Guide](#-deployment-guide)
-- [Security & IAM](#-security--iam)
-- [Roadmap](#-roadmap)
-
+A production-grade, fully serverless resume submission platform built on AWS.
+Designed for scalability, security, and zero server maintenance.
 ---
 
 ## 1. Problem Statement
