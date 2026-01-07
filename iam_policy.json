@@ -4,7 +4,7 @@
     {
       "Effect": "Allow",
       "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::resume-uploads-kishor-2002/*"
+      "Resource": "arn:aws:s3:::<bucket_name>/*"
     },
     {
       "Effect": "Allow",
@@ -14,7 +14,7 @@
     {
       "Effect": "Allow",
       "Action": "sns:Publish",
-      "Resource": "arn:aws:sns:us-east-1:<account_no>:resume-upload-alerts"
+      "Resource": "arn:aws:sns:<region>:<account_no>:resume-upload-alerts"
     },
     {
       "Effect": "Allow",

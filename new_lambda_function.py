@@ -14,24 +14,22 @@ sns = boto3.client("sns")
 # CONFIG (ENV first, fallback to working values)
 UPLOAD_BUCKET = os.getenv(
     "UPLOAD_BUCKET",
-    "resume-uploads-kishor-2002"
-)
+) ## Configure UPLOAD_BUCKET in your Lambda environment variables or paste the bucket name here directly for testing purposes.
 
 TABLE_NAME = os.getenv(
     "DDB_TABLE",
-    "ResumeUploads"
-)
+
+) ## Configure DDB_TABLE in your Lambda environment variables or paste the table name here directly for testing purposes.
 
 TOPIC_ARN = os.getenv(
     "SNS_TOPIC_ARN",
-    "arn:aws:sns:us-east-1:778465394744:resume-upload-alerts"
-)
+) ##  Configure SNS_TOPIC_ARN in your Lambda environment variables or paste the ARN here directly for testing purposes.
 
-MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_MB", "5"))
+MAX_FILE_SIZE_MB = int(os.getenv("MAX_FILE_MB", "5")) # Default to 5 MB
 ALLOWED_CONTENT_TYPE = os.getenv(
     "ALLOWED_CONTENT_TYPE",
     "application/pdf"
-)
+) # Default to PDF
 
 table = ddb.Table(TABLE_NAME)
 

@@ -1,4 +1,16 @@
 # Serverless Resume Upload Portal (AWS)
+---
+## 📖 Table of Contents
+- [Problem Statement](#-problem-statement)
+- [Architecture](#-architecture)
+- [Technology Stack](#-technology-stack)
+- [Workflow](#-workflow)
+- [Configuration](#-configuration)
+- [Deployment Guide](#-deployment-guide)
+- [Security & IAM](#-security--iam)
+- [Roadmap](#-roadmap)
+
+---
 
 ## 1. Problem Statement
 
