@@ -25,6 +25,8 @@ User (Browser)
 → Amazon DynamoDB (Metadata Storage)  
 → Amazon SNS (Admin Notification)
 
+## Architecture Diagram
+![Architecture Diagram](images/architecture.png)
 ---
 
 ## 4. Technology Stack
