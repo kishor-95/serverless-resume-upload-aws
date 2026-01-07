@@ -124,7 +124,6 @@ This project is deployed directly on AWS and is not intended to be run locally.
 ### Step 4: Create Lambda Function
 
 - Runtime: Python 3.11  
-- Package type: ZIP  
 - Paste the Lambda function code  
 - Deploy the function  
 
