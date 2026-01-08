@@ -38,6 +38,10 @@ resource "aws_s3_bucket_website_configuration" "frontend" {
 }
 
 resource "aws_s3_bucket_policy" "frontend" {
+  depends_on = [
+    aws_s3_bucket_public_access_block.frontend
+  ]
+
   bucket = aws_s3_bucket.frontend.id
 
   policy = jsonencode({
@@ -50,7 +54,6 @@ resource "aws_s3_bucket_policy" "frontend" {
     }]
   })
 }
-
 ## DynamoDB Table for tracking resume uploads
 resource "aws_dynamodb_table" "resume_uploads" {
   name         = var.dynamodb_table_name
@@ -70,6 +73,7 @@ resource "aws_sns_topic" "alerts" {
 }
 
 
+## IAM Role for Lambda Function
 resource "aws_iam_role" "lambda_role" {
   name = "${var.project_name}-lambda-role"
 
@@ -125,7 +129,7 @@ resource "aws_lambda_function" "upload" {
   runtime       = "python3.11"
   handler       = "lambda_function.lambda_handler"
   role          = aws_iam_role.lambda_role.arn
-  filename      = "lambda.zip"
+  filename      = "lambda_function.zip"
 
   environment {
     variables = {
@@ -151,7 +155,7 @@ resource "aws_lambda_function_url" "upload" {
   authorization_type = "NONE"
 
   cors {
-    allow_origins = ["https://${aws_s3_bucket_website_configuration.frontend.website_endpoint}"]
+    allow_origins = ["http://${aws_s3_bucket_website_configuration.frontend.website_endpoint}"]
     allow_methods = ["POST"]
     allow_headers = ["*"]
   }
