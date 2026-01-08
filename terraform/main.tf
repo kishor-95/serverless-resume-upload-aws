@@ -16,16 +16,16 @@ resource "aws_s3_bucket_public_access_block" "resume_storage" {
 
 resource "aws_s3_bucket" "frontend" {
   bucket = var.frontend_bucket_name
-  
+
 }
 
 resource "aws_s3_bucket_public_access_block" "frontend" {
   bucket = aws_s3_bucket.frontend.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+    block_public_acls       = false
+    block_public_policy     = false
+    ignore_public_acls      = false
+    restrict_public_buckets = false
 }
 ## S3 Bucket Website Configuration for frontend
 
@@ -76,9 +76,9 @@ resource "aws_iam_role" "lambda_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect = "Allow"
+      Effect    = "Allow"
       Principal = { Service = "lambda.amazonaws.com" }
-      Action = "sts:AssumeRole"
+      Action    = "sts:AssumeRole"
     }]
   })
 }
@@ -135,13 +135,13 @@ resource "aws_lambda_function" "upload" {
     }
   }
   ## lifecycle to force new deployment when code changes
-       lifecycle {
-      ignore_changes = [
-       filename,
-       source_code_hash
-     ]
-   }
- }
+  lifecycle {
+    ignore_changes = [
+      filename,
+      source_code_hash
+    ]
+  }
+}
 
 
 ## Lambda function url for API Gateway integration
@@ -151,7 +151,7 @@ resource "aws_lambda_function_url" "upload" {
   authorization_type = "NONE"
 
   cors {
-    allow_origins = ["http://${aws_s3_bucket_website_configuration.frontend.website_endpoint}"]
+    allow_origins = ["https://${aws_s3_bucket_website_configuration.frontend.website_endpoint}"]
     allow_methods = ["POST"]
     allow_headers = ["*"]
   }
@@ -169,25 +169,39 @@ const LAMBDA_UPLOAD_URL = "${aws_lambda_function_url.upload.function_url}";
 EOF
 }
 
-## Upload frontend files to S3 bucket
+# ## Upload frontend files to S3 bucket
 
-resource "aws_s3_object" "frontend_files" {
-  depends_on = [local_file.frontend_config]
+# resource "aws_s3_object" "frontend_files" {
+#   depends_on = [local_file.frontend_config]
 
-  for_each = fileset("${path.module}/../frontend", "**")
+#   for_each = fileset("${path.module}/../frontend", "**")
 
-  bucket = aws_s3_bucket.frontend.bucket
-  key    = each.value
-  source = "${path.module}/../frontend/${each.value}"
+#   bucket = aws_s3_bucket.frontend.bucket
+#   key    = each.value
+#   source = "${path.module}/../frontend/${each.value}"
 
-  content_type = lookup(
-    {
-      html = "text/html"
-      js   = "application/javascript"
-    },
-    split(".", each.value)[length(split(".", each.value)) - 1],
-    "binary/octet-stream"
-  )
+#   content_type = lookup(
+#     {
+#       html = "text/html"
+#       js   = "application/javascript"
+#     },
+#     split(".", each.value)[length(split(".", each.value)) - 1],
+#     "binary/octet-stream"
+#   )
+# }
+
+resource "aws_s3_object" "frontend_index" {
+  bucket       = aws_s3_bucket.frontend.bucket
+  key          = "index.html"
+  source       = "${path.module}/../frontend/index.html"
+  content_type = "text/html"
 }
 
+resource "aws_s3_object" "frontend_config" {
+  depends_on = [local_file.frontend_config]
 
+  bucket       = aws_s3_bucket.frontend.bucket
+  key          = "config.js"
+  source       = "${path.module}/../frontend/config.js"
+  content_type = "application/javascript"
+}
